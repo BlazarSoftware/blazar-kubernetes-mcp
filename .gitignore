@@ -28,3 +28,8 @@ python/build/
 python/dist/
 python/kubernetes_mcp_server.egg-info/
 !python/kubernetes-mcp-server
+
+# BlazarSoftware configuration (credentials/secrets)
+.env
+*.pem
+kubeconfig
