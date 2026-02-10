@@ -1,0 +1,17 @@
+[Unit]
+Description=Kubernetes MCP Server (Blazar)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+Environment=KUBECONFIG=/home/heather/.claude/black-apron-kubeconfig
+Environment=K8S_NAMESPACE=black-apron
+Environment=PATH=/home/heather/.nvm/versions/node/v22.22.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+WorkingDirectory=/home/heather/ringle/blazar-kubernetes-mcp
+ExecStart=/home/heather/.nvm/versions/node/v22.22.0/bin/npx -y kubernetes-mcp-server@latest --port 8008 --kubeconfig /home/heather/.claude/black-apron-kubeconfig
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
