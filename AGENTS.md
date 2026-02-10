@@ -95,6 +95,29 @@ It reads the kubeconfig from the `--kubeconfig` flag, the `KUBECONFIG` environme
 
 This means that `npx -y kubernetes-mcp-server@latest` on a workstation will talk to whatever cluster your current kubeconfig points to (e.g. a local Kind cluster).
 
+### Always-On (systemd user service)
+
+For this repo, we ship a user-level systemd unit for an always-on SSE server:
+
+```bash
+./scripts/install-systemd-user.sh
+```
+
+The unit file lives at `systemd/kubernetes-mcp.service` and runs:
+
+- `npx -y kubernetes-mcp-server@latest --port 8008 --kubeconfig ~/.claude/black-apron-kubeconfig`
+- `K8S_NAMESPACE=black-apron`
+
+After install, manage it with:
+
+```bash
+systemctl --user status kubernetes-mcp.service
+systemctl --user restart kubernetes-mcp.service
+journalctl --user -u kubernetes-mcp.service -f
+```
+
+The SSE endpoint is `http://127.0.0.1:8008/sse` and health check is `http://127.0.0.1:8008/healthz`.
+
 ### Remote Execution
 
 When running remotely, the server can be deployed as a container image in a Kubernetes or OpenShift cluster.
